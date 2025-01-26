@@ -1,0 +1,651 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+]{article}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[lmargin=1.25in,rmargin=1.25in,tmargin=1in,bmargin=1in]{geometry}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{scrlayer-scrpage}
+\rohead{Batch Processing Tutorial V1.1}
+\usepackage[noblocks]{authblk}
+\renewcommand*{\Authsep}{, }
+\renewcommand*{\Authand}{ and }
+\renewcommand*{\Authands}{, }
+\renewcommand\Affilfont{\small}
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Batch Processing in PAMGuard},
+  pdfauthor={Douglas Gillespie},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Batch Processing in PAMGuard}
+
+
+\author[1]{Douglas Gillespie}
+
+\affil[1]{Sea Mammal Research Unit, University of St Andrews}
+
+
+\date{2025-01-26}
+\begin{document}
+\maketitle
+
+\centerline{\textbf{Tutorial Version 1.1}}
+\vspace{3cm}
+
+
+\centerline{\textbf{Learning Outcomes}}
+
+In this tutorial you wil learn to:
+\begin{enumerate}
+\item Lean what we mean by batch processing
+\item Install the Batch Processor in PAMGurd
+\item Set up a PAMGuard configuration to run batch processes
+\item Run a process of a multiple sets of raw data files
+\item Run additional offline tasks on the generated PAMGuard output
+\end{enumerate}
+\newpage
+
+\renewcommand*\contentsname{Table of contents}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\newpage{}
+
+\section{Introduction}\label{introduction}
+
+The PAMGuard batch processing module allows you to run the same PAMGuard
+configuration on multiple sets of data (Figure~\ref{fig-normaldiagram}).
+This is particularly useful if you are processing data from deployments
+of multiple autonomous recorders and want to process the data from all
+of them in exactly the same way. It's also useful if you want to
+reprocess data from multiple old cruises with a new detector, for
+instance with one of the new Deep Learning detectors / classifiers that
+are becoming increasingly widely used.
+
+PAMGuard users will know that setting up the same configurations
+(PAMGuard configurations are held in psfx files) on multiple datasets is
+tiresome. For each dataset, you need to copy the psfx, then change the
+input folder for your sound files, the output folder for the binary data
+and the output database. If you get this wrong, then you might overwrite
+some data. Then, when you decide that those weren't exactly the detector
+settings you wanted, you have to do it all again for all your data sets.
+
+The PAMGuard batch processing module addressed this problem by running
+the same configuration on as many data sets as you want. You set up a
+series of jobs, and it will work through them, using the same
+configuration, until they are complete. Generally, it will run multiple
+jobs concurrently on a single machine.
+
+As well as processing raw audio data, it can also run `offline tasks' on
+already processed data. For instance if you wanted to change the click
+classifier settings, and reprocess all of the click binary files in
+multiple datasets, the batch processor can help do this in an efficient
+manner.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/normaldiagram.png}}
+
+}
+
+\caption{\label{fig-normaldiagram}Diagram of the batch processor
+configuration}
+
+\end{figure}%
+
+\subsection{Soundtraps}\label{soundtraps}
+
+SoundTraps are slightly more sophisticated than many recorders.
+Depending on how they are configured, they may not just be recording raw
+audio data. The ones we're using were configured to sample raw data at a
+sample rate of 576kHz. The soundtrap then ran an automatic transient
+(click) detector on the incoming data and each detection was saved as a
+short clip just over a millisecond long. The incoming high frequency
+data were then decimated to 96kHz and all of the 96kHz data stored. Both
+the detections and the recordings are compressed using a lossless
+compression algorithm and stored together in a SUD file as shown in
+Figure~\ref{fig-soundtrapflow}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{images/soundtrapflow.png}
+
+}
+
+\caption{\label{fig-soundtrapflow}Schematic diagram of the data flow
+through a soundtrap}
+
+\end{figure}%
+
+The soundtrap system does not attempt to run automatic detectors for
+lower frequency sounds. This would be too complicated for the low power
+processor that soundtraps use. The combination of high frequency click
+detection and lower frequency recording allows us to detect the very
+high frequency clicks of species such as the harbour porpoise, and at
+the same time, make recordings which can be processed offline for a wide
+variety of other species. This system allows for much longer deployments
+than would be possible if all of the high frequency data were recorded.
+For more information about soundtraps, visit the
+\href{https://www.oceaninstruments.co.nz/}{Ocean Instruments Web page}.
+
+This tutorial follows on directly from another PAMGuard Tutorial
+\href{https://www.pamguard.org/tutorials/staticmonitoring.html}{Introduction
+to Static Monitoring} which you might want to complete before proceeding
+with this tutorial, which will focus on batch processing with a
+pre-built configuration.
+
+\section{Installation}\label{installation}
+
+\subsection{Software}\label{software}
+
+This tutorial will work with PAMGuard Version 2.02.16 or later and the
+Batch Processor Plugin version 2.0 or later, both of which are available
+on the PAMGuard website. Once you've installed PAMGuard, copy the
+downloaded Batch module (BatchProcessing\_2\_0.jar) into the plugins
+folder, which you'll find in your PAMGuard installation folder (probably
+C:\textbackslash Program
+Files\textbackslash Pamguard\textbackslash plugins). If you've any older
+versions of the Batch Processor plugin in that folder, make sure you
+remove them. Once this is done, the Batch Processor module will appear
+in the Add Modules / Utilities menu just like any other PAMGuard module.
+
+\subsection{Sample Data}\label{sample-data}
+
+The data you'll be using for this tutorial comes from a deployment of
+five SoundTrap 300 recorders off the West coast of Scotland. We've taken
+a single days data for each recorder since the full dataset would be too
+large for a tutorial exercise and might take many days to process.
+
+The data are available on Zenodo at (Link to the Zenodo site). The
+Zenodo dataset contains three files: rawsudfiles.zip, configuration.zip
+and pamguardoutput.zip. For this tutorial you only need rawsudfiles.zip
+and configuration.zip (Figure~\ref{fig-data}). You'll be recreating the
+files in pamguardoutput.zip, so you don't need them, but take a look if
+you want to.
+
+Unzip rawsudfiles.zip and configuration.zip to a convenient location on
+your hard drive.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=4in,height=2.08in]{BatchBasics_files/figure-latex/mermaid-figure-1.png}
+
+}
+
+\caption{\label{fig-data}Data organisation for this tutorial.}
+
+\end{figure}%
+
+\section{Configure PAMGuard}\label{configure-pamguard}
+
+Two PAMGuard configurations are required to run the batch processor. A
+configuration that contains the PAMGuard modules that you want to run on
+your data, and a second configuration that is going to control the Batch
+Processor. We'll call these the \textbf{Run configuration} and the
+\textbf{Batch Configuration} respectively.
+
+\subsection{The Run configuration}\label{the-run-configuration}
+
+The run configuration you'll be using is the configuration you should
+have ended up with at the end of the
+\href{https://www.pamguard.org/tutorials/staticmonitoring.html}{Introduction
+to Static Monitoring}
+
+We've made this for you to save time. For more information on building
+configurations to process soundtrap data see the tutorial
+\href{https://www.pamguard.org/tutorials/staticmonitoring.html}{Introduction
+to Static Monitoring}. If you completed that tutorial, you can use the
+configuration you had at the end, or you can use
+compass\_settings\_static\_logger.psfx which you should have downloaded
+in configuration.zip.
+
+The configuration (Figure~\ref{fig-pamguardmodel}) uses an FFT module to
+compute a spectrogram of the 96kHz data which feeds a Whistle detector
+and a long team spectral average (LTSA) generator. The 96kHz data also
+input to a Noise band Monitor and are also decimated to 10kHz fo feed a
+second copy of the Whislte and Moan detector to search for lower
+frequency tonal sounds. You'll also see the ST ``Click Detector'' which
+is not connected to the data from the sound acquisition. This is because
+it's a special version of the click detector, modified to receive the
+detection clips from the SUD files, which you'll remember are at the
+higher sample rate of 576kHz.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/pamguardmodel.png}}
+
+}
+
+\caption{\label{fig-pamguardmodel}PAMGuard Data Model Diagram for
+SoundTrapClicksNWsls.psfx}
+
+\end{figure}%
+
+As well as the above sound processing and detection modules, there is
+the Array Manager and Meta Data modules (both always present in every
+PAMGuard configuration), a Binary Store and Database for the output data
+we're about to generate, and a User display which will show a
+spectrogram of the 96kHz data overlaid with whistle detections.
+
+You've probably opened the compass\_settings\_static\_logger.psfx file
+yourself by now. Close it again before you start to create the Batch
+Configuration.
+
+\subsection{The Batch Configuration}\label{the-batch-configuration}
+
+You'll be making this configuration from scratch so that you learn to
+use the batch processor.
+
+Start PAMGuard and create a new configuration. Launch PAMGuard, and when
+it asks you to ``load PAMGuard configuration from \ldots{}'' press
+Browse / Create New\ldots{} . In the dialog that opens, navigate to
+where you want to work, and enter the file name CompassBatch
+(Figure~\ref{fig-createpsfx}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{images/createpsfx.png}
+
+}
+
+\caption{\label{fig-createpsfx}PAMGuard dialog for creating a new
+configuration file}
+
+\end{figure}%
+
+From PAMGuards file / add modules / utilities menu add a Database and a
+Batch processing module to the configuration. Then from the file menu /
+Database / Database Selection dialog, press browse / create and enter
+the name of the database (e.g.~CompassBatch) which is going to hold
+information about the jobs you're running and how they are progressing.
+Your PAMGuard configuration should now look like
+Figure~\ref{fig-emptyconfig} .
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/emptyconfig.png}}
+
+}
+
+\caption{\label{fig-emptyconfig}PAMGuard configuration with database and
+batch processor modules}
+
+\end{figure}%
+
+\subsubsection{Select the configuration
+file}\label{select-the-configuration-file}
+
+At the top of the display, in the configuration panel, press the Browse
+\ldots{} button and select the Run Configuration
+compass\_settings\_static\_logger.psfx.
+
+\subsection{Create jobs}\label{create-jobs}
+
+You should have five sets of sud files, each in a different folder. You
+can create all five jobs at once from the Create Set button in the Job
+Control Panel. Press the Create Set button, then in the dialog, press
+the Select button in the top right corner. Navigate to the folder
+containing the five folders of soundtrap data and select just that root
+folder (in the example in Figure~\ref{fig-createset} it's
+C:\textbackslash ProjectData\textbackslash Compass\textbackslash soundtrapdata).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{images/createset.png}
+
+}
+
+\caption{\label{fig-createset}Selecting the source folder for multiple
+batch jobs}
+
+\end{figure}%
+
+The Batch processor will only look one level of folders down from the
+folder you select, so make sure you've selected the right folder. If
+you've got it right, you'll be told that its found five sub folder.
+
+Select folders for the binary output and for the databases that will be
+automatically generated. I've chosen the folder
+C:\textbackslash ProjectData\textbackslash Compass\textbackslash PAMGuardOutput
+for both.
+
+Press OK, and the set of five batch jobs should show in the main
+PAMGuard batch display (Figure~\ref{fig-config2}).
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/config2.png}}
+
+}
+
+\caption{\label{fig-config2}PAMGuard configuration with a set of five
+batch jobs}
+
+\end{figure}%
+
+\subsection{Set individual job calibration and location
+data.}\label{set-individual-job-calibration-and-location-data.}
+
+By default, the batch processor will take hydrophone data from the Run
+Configuration and use it with each set of data processes. If you're
+making noise measurements, you will need to set the correct hydrophone
+calibration values for each job, or the noise measurements will not be
+accurate. If you're processing data from static hydrophones, you may
+also want to set the correct location of each deployment.
+
+Callibration and location values for each dataset are provided in the
+files CompassMetaData.xlsx and CompassMetaData.csv (both are the same
+data).
+
+\begin{figure}
+
+\begin{minipage}{\linewidth}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{images/arraymanager1.png}
+
+}
+
+\subcaption{\label{fig-arraymanager1}Array Manager dialog panel}
+
+\end{minipage}%
+\newline
+\begin{minipage}{0.38\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/hydrophone.png}}
+
+}
+
+\subcaption{\label{fig-hydrophone}Hydrophone Sensitivity}
+
+\end{minipage}%
+%
+\begin{minipage}{0.02\linewidth}
+~\end{minipage}%
+%
+\begin{minipage}{0.60\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/array.png}}
+
+}
+
+\subcaption{\label{fig-array}Location Data}
+
+\end{minipage}%
+
+\caption{\label{fig-arrayman}Entering the hydrophone calibration and
+location data}
+
+\end{figure}%
+
+For each job in the table, right click on the row and select ``Add or
+Edit calibration / Array Data'' from the dropdown menu. This will open
+the Array Manager dialog (Figure~\ref{fig-arraymanager1}), using the
+current default values from the Run Configuration. Enter the SoundTrap
+serial number in the Instrument Id field. Next double click on the
+hydrophone element (there is only one for this SoundTrap). Enter the
+hydrophone sensitivity as the negative of the High Gain full scale value
+from the spreadsheet (Figure~\ref{fig-hydrophone}). Then open the
+`streamer', again by double clicking or by pressing the edit button.
+Right click on the meny button to the right of the display position and
+select ``Edit'' from the dropdown menu. When the Hydrophone array
+reference position dialog opens, click on ``Decimal'' in the top right
+hand corner and copy/paste the appropriate values from the spreadsheet
+(Figure~\ref{fig-array}).
+
+Work your way through all five jobs and set the data for all of them.
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, breakable, rightrule=.15mm, colback=white, leftrule=.75mm, opacityback=0, left=2mm, toprule=.15mm, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, bottomtitle=1mm, colframe=quarto-callout-note-color-frame, toptitle=1mm, opacitybacktitle=0.6]
+
+We agree that this can be a bit of a pain for a deployment of many
+recorders and are trying to think of an easier way of doing this such as
+importing data somehow from a database or spreadsheet.
+
+\end{tcolorbox}
+
+\section{Run the batch jobs}\label{run-the-batch-jobs}
+
+\subsection{Number of concurrent jobs}\label{number-of-concurrent-jobs}
+
+The final thing to decide before starting processing is how many
+concurrent jobs your computer can manage efficiently. How many jobs can
+run concurrently, depends on the complexity of the configuration and on
+how powerful the computer is. On a good Intel I7 desktop with 32 GBytes
+of RAM, I'd probably run three jobs at a time. On my laptop, which only
+has 12 cores and 16 GByte RAM, I'll stick to 2. To set the number of
+jobs right click on the Processor table (which will have a single line
+in it for your current machine) and either increase or decrease the
+maximum number of jobs.
+
+\subsection{Run the jobs}\label{run-the-jobs}
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.5\linewidth,height=\textheight,keepaspectratio]{images/jobstatus.png}
+
+}
+
+\caption{\label{fig-jobstatus}Batch Job Status}
+
+\end{figure}%
+
+You're now ready to start the batch jobs. Press the PAMGuard start
+button and wait a few seconds for the first jobs to start. The jobs
+table will show the status of each job (Figure~\ref{fig-jobstatus}),
+which will update as each processed file completes. When a job ends,
+another will start until all jobs are complete.
+
+You can change the number of concurrent jobs while they are running. If
+you reduce the number, then no jobs will be stopped, but when one ends,
+another will not start until the number of active jobs drops below the
+set maximum. If you increase the number of jobs, it's likely that
+another job will start immediately.
+
+Once jobs are complete, there will be a menu option available to open
+that dataset with the PAMGuard Viewer.
+
+For further information, see the online help.
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, breakable, rightrule=.15mm, colback=white, leftrule=.75mm, opacityback=0, left=2mm, toprule=.15mm, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, colbacktitle=quarto-callout-tip-color!10!white, titlerule=0mm, bottomtitle=1mm, colframe=quarto-callout-tip-color-frame, toptitle=1mm, opacitybacktitle=0.6]
+
+Unless you have a powerful computer, running these sample jobs may take
+an hour or more. At this point you may want to stop the jobs and take a
+look at the preprocessed data we provided for you.
+
+\end{tcolorbox}
+
+\section{Running Offline Tasks}\label{running-offline-tasks}
+
+Several PAMGuard modules have options in Viewer mode to re-run certain
+tasks, such as click classification.
+
+Indeed, in the exercises above, we deliberately `forgot' to set up the
+SoundTrap click detector to classify porpoise clicks, so we should run
+that task now.
+
+
+
+
+\end{document}

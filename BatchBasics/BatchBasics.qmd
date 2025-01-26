@@ -1,0 +1,330 @@
+---
+title: "Batch Processing in PAMGuard"
+#subtitle: "Tutorial Version 2.0"
+bibliography: references.bib
+link-citations: true
+author: 
+  - name: Douglas Gillespie
+    affil-id: 1
+affiliations: 
+  - id: 1
+    name: Sea Mammal Research Unit, University of St Andrews
+date: last-modified
+#abstract-title: "Summary"
+#abstract: "this is the abstract which will be over several lines and will be over many lines and that should be fine #{{< pagebreak >}}"
+format:
+  pdf:
+    margin-left: 1.25in
+    margin-right: 1.25in
+    margin-top: 1in
+    margin-bottom: 1in
+    keep-tex: true
+    template-partials: 
+      - title.tex
+    include-in-header:
+      text: |
+        \usepackage{scrlayer-scrpage}
+        \rohead{Batch Processing Tutorial V1.1}
+        \usepackage[noblocks]{authblk}
+        \renewcommand*{\Authsep}{, }
+        \renewcommand*{\Authand}{ and }
+        \renewcommand*{\Authands}{, }
+        \renewcommand\Affilfont{\small}
+#      file: |
+#        - summary.qmd
+    toc: true
+    number-sections: true
+    colorlinks: true
+    fig-cap-location: bottom
+    tbl-cap-location: top   
+    dpi: 600 
+#    include-in-header: 
+#      text: |
+#        "some text to include in the header"
+    include-before-body:
+      text: |
+        \centerline{\textbf{Tutorial Version 1.1}}
+        \vspace{3cm}
+
+
+        \centerline{\textbf{Learning Outcomes}}
+        
+        In this tutorial you wil learn to:
+        \begin{enumerate}
+        \item Lean what we mean by batch processing
+        \item Install the Batch Processor in PAMGurd
+        \item Set up a PAMGuard configuration to run batch processes
+        \item Run a process of a multiple sets of raw data files
+        \item Run additional offline tasks on the generated PAMGuard output
+        \end{enumerate}
+        \newpage
+---
+
+
+{{< pagebreak >}}
+
+# Introduction
+
+The PAMGuard batch processing module allows you to run the same PAMGuard configuration on multiple sets of 
+data (@fig-normaldiagram). This is particularly useful if you are processing data from deployments of multiple autonomous
+recorders and want to process the data from all of them in exactly the same way. It's also useful if 
+you want to reprocess data from multiple old cruises with a new detector, for instance with one of
+the new Deep Learning detectors / classifiers that are becoming increasingly widely used. 
+
+PAMGuard users will know that setting up the same configurations (PAMGuard configurations are held in psfx files) on multiple datasets is tiresome. For each dataset, you need to copy the psfx, then change the input folder for your sound files, the output folder for the binary data and the output database. If you get this wrong, then you might overwrite some data. Then, when you decide that those weren’t exactly the detector settings you wanted, you have to do it all again for all your data sets. 
+
+The PAMGuard batch processing module addressed this problem by running the same configuration on as many data sets as you want. You set up a series of jobs, and it will work through them, using the same configuration, until they are complete. Generally, it will run multiple jobs concurrently on a single machine.
+
+As well as processing raw audio data, it can also run 'offline tasks' on already processed data. For instance
+if you wanted to change the click classifier settings, and reprocess all of the click binary files in multiple 
+datasets, the batch processor can help do this in an efficient manner. 
+
+![Diagram of the batch processor configuration](images/normaldiagram.png){#fig-normaldiagram}
+
+## Soundtraps
+
+SoundTraps are slightly more sophisticated than many recorders. Depending on how they are configured, 
+they may not just be recording raw audio data. The ones we're using were configured to sample raw
+data at a sample rate of 576kHz. The soundtrap then ran an automatic transient (click) detector on the
+incoming data and each detection was saved as a short clip just over a millisecond long. The incoming high frequency 
+data were then decimated to 96kHz and all of the 96kHz data stored. Both the detections and the recordings
+are compressed using a lossless compression algorithm and stored together in a SUD file as shown 
+in @fig-soundtrapflow.
+
+![Schematic diagram of the data flow through a soundtrap](images/soundtrapflow.png){#fig-soundtrapflow width=90%}
+
+The soundtrap system does not attempt to run automatic detectors for lower frequency sounds. This would
+be too complicated for the low power processor that soundtraps use. The combination of high
+frequency click detection and lower frequency recording 
+allows us to detect the very high frequency clicks of species such as the harbour porpoise, 
+and at the same time, make recordings which can be processed offline for a wide variety of other 
+species. This system allows for much longer deployments than would be possible if all of the high frequency data were recorded.
+For more information about soundtraps, visit the [Ocean Instruments Web page](https://www.oceaninstruments.co.nz/).
+
+This tutorial follows on directly from another PAMGuard Tutorial [Introduction to Static Monitoring](https://www.pamguard.org/tutorials/staticmonitoring.html) which you might want to 
+complete 
+before proceeding with this tutorial, which will focus on batch processing with a pre-built configuration. 
+
+
+
+# Installation
+## Software
+
+This tutorial will work with PAMGuard Version 2.02.16 or later and the Batch Processor Plugin version 2.0 or later, both 
+of which are available on the PAMGuard website. Once you've installed PAMGuard, copy the downloaded Batch module (BatchProcessing_2_0.jar)
+into the plugins folder, which you'll find in your PAMGuard installation folder (probably C:\\Program Files\\Pamguard\\plugins). If you've
+any older versions of the Batch Processor plugin in that folder, make sure you remove them. Once this is done, the Batch Processor module
+will appear in the Add Modules / Utilities menu just like any other PAMGuard module. 
+
+## Sample Data
+The data you'll be using for this tutorial comes from a deployment of five SoundTrap 300 recorders off the
+West coast of Scotland. We've taken a single days data for each recorder since the full dataset would be
+too large for a tutorial exercise and might take many days to process. 
+
+The data are available on Zenodo at (Link to the Zenodo site). 
+The Zenodo dataset contains three files: rawsudfiles.zip, configuration.zip and pamguardoutput.zip. For this tutorial you only need rawsudfiles.zip and configuration.zip (@fig-data). You'll be recreating the files in pamguardoutput.zip, so you don't need them, but take a look if you want to. 
+
+Unzip rawsudfiles.zip and configuration.zip to a convenient location on your hard drive. 
+
+
+```{mermaid}
+%%| label: fig-data
+%%| fig-width: 4
+%%| fig-cap: |
+%%|   Data organisation for this tutorial.
+%%{
+  init: {
+    'theme': 'neutral',
+    'look': 'handdrawn' 
+    'themeVariables': {
+      'primaryColor': '#BB2528',
+      'primaryTextColor': '#000',
+      'primaryBorderColor': '#7C0000',
+      'lineColor': '#F8B229',
+      'secondaryColor': '#006100',
+      'tertiaryColor': '#fff'
+    }
+  }
+}%%
+graph LR
+  setNames["Hyskeir\ 
+  ShiantIsles\ 
+  StantonBank\ 
+  StoerHead\ 
+  Tolsta\ "]
+  metaNames["compass_settings_static_logger.psfx
+  metadata.csv"]
+  style setNames text-align:left
+  style metaNames text-align:left
+  B[rawsudfiles.zip] --> setNames
+  H[configuration.zip] --> metaNames
+```
+
+
+# Configure PAMGuard
+
+Two PAMGuard configurations are required to run the batch processor. A configuration that contains
+the PAMGuard modules that you want to run on your data, and a second configuration that is going 
+to control the Batch Processor. We'll call these the **Run configuration** and the **Batch Configuration**
+respectively.
+
+## The Run configuration
+
+The run configuration you'll be using is the configuration you should have ended up with at the 
+end of the  [Introduction to Static Monitoring](https://www.pamguard.org/tutorials/staticmonitoring.html)
+
+We've made this for you to save time. For more information
+on building configurations to process soundtrap data see the tutorial 
+[Introduction to Static Monitoring](https://www.pamguard.org/tutorials/staticmonitoring.html).
+If you completed that tutorial, you can use the configuration you had at the end, or you
+can use compass_settings_static_logger.psfx which you should have downloaded in configuration.zip.
+
+The configuration (@fig-pamguardmodel) uses an FFT module to compute a spectrogram of the 96kHz data which feeds a
+Whistle detector and a long team spectral average (LTSA) generator. 
+The 96kHz data also input to a Noise band Monitor and are also decimated to 10kHz fo feed a second copy of the Whislte and Moan
+detector to search for lower frequency tonal sounds. 
+You'll also see the ST "Click Detector" which is not connected to the data from
+the sound acquisition. This is because it's a special version of the click detector, modified to receive
+the detection clips from the SUD files, which you'll remember are at the higher sample rate of 576kHz. 
+
+![PAMGuard Data Model Diagram for SoundTrapClicksNWsls.psfx](images/pamguardmodel.png){#fig-pamguardmodel}
+
+As well as the above sound processing and detection modules, there is the Array Manager and Meta Data modules (both always present in every PAMGuard configuration), a Binary Store and Database for the output
+data we're about to generate, and a User display which will show a spectrogram of the 96kHz data overlaid 
+with whistle detections. 
+
+
+You've probably opened the compass_settings_static_logger.psfx file yourself by now. Close it again before you 
+start to create the Batch Configuration.
+
+## The Batch Configuration
+
+You'll be making this configuration from scratch so that you learn to use the batch processor. 
+
+Start PAMGuard and create a new configuration. Launch PAMGuard, and when it asks you to 
+"load PAMGuard configuration from ..." press Browse / Create New... . In the dialog that
+opens, navigate to where you want to work, and enter the file name CompassBatch
+(@fig-createpsfx). 
+
+![PAMGuard dialog for creating a new configuration file](images/createpsfx.png){#fig-createpsfx width=70%}
+
+From PAMGuards file / add modules / utilities menu add a Database and a Batch processing module to the configuration. Then from the file
+menu / Database / Database Selection dialog, press browse / create and enter the name of the database (e.g. CompassBatch) which is going 
+to hold information about the jobs you're running and how they are progressing. Your PAMGuard configuration should now look 
+like @fig-emptyconfig .
+
+![PAMGuard configuration with database and batch processor modules](images/emptyconfig.png){#fig-emptyconfig}
+
+### Select the configuration file
+
+At the top of the display, in the configuration panel, press the Browse ... button and select the Run Configuration
+compass_settings_static_logger.psfx.
+
+## Create jobs
+
+You should have five sets of sud files, each in a different folder. You can create all five jobs at once
+from the Create Set button in the Job Control Panel. Press the Create Set button, then in the dialog, press
+the Select button in the top right corner. Navigate to the folder containing the five folders 
+of soundtrap data and select just that root folder (in the example in @fig-createset it's C:\\ProjectData\\Compass\\soundtrapdata).
+
+![Selecting the source folder for multiple batch jobs](images/createset.png){#fig-createset width=70%}
+
+The Batch processor will only look one level of folders down from the folder you select, so make sure you've selected
+the right folder. If you've got it right, you'll be told that its found five sub folder. 
+
+Select folders for the binary output and for the databases that will be automatically generated. I've chosen the
+folder C:\\ProjectData\\Compass\\PAMGuardOutput for both. 
+
+Press OK, and the set of five batch jobs should show in the main PAMGuard batch display
+(@fig-config2).
+
+![PAMGuard configuration with a set of five batch jobs](images/config2.png){#fig-config2}
+
+## Set individual job calibration and location data.
+
+By default, the batch processor will take hydrophone data from the Run Configuration and use it with 
+each set of data processes. If you're making noise measurements, you will need to set the 
+correct hydrophone calibration values for each job, or the noise measurements will not be
+accurate. If you're processing data from static hydrophones, you may also want to set the correct 
+location of each deployment. 
+
+Callibration and location values for each dataset are provided in the files CompassMetaData.xlsx
+and CompassMetaData.csv (both are the same data).
+
+
+::: {#fig-arrayman layout="[[75], [35,-2,55]]" layout-valign="bottom"}
+
+![Array Manager dialog panel](images/arraymanager1.png){#fig-arraymanager1 width=70%}
+
+![Hydrophone Sensitivity](images/hydrophone.png){#fig-hydrophone}
+
+![Location Data](images/array.png){#fig-array}
+
+Entering the hydrophone calibration and location data
+
+:::
+
+For each job in the table, right click on the row and select "Add or Edit calibration / Array Data" from 
+the dropdown menu. This will open the Array Manager dialog (@fig-arraymanager1), using the current default values
+from the Run Configuration. Enter the SoundTrap serial number in the Instrument Id field. Next double click on the hydrophone
+element (there is only one for this SoundTrap). Enter the hydrophone sensitivity as the negative of the
+High Gain full scale value from the spreadsheet (@fig-hydrophone). Then open the 'streamer', again by double clicking or
+by pressing the edit button. Right click on the meny button to the right of the display position and
+select "Edit" from the dropdown menu. When the Hydrophone array reference position dialog opens, click
+on "Decimal" in the top right hand corner and copy/paste the appropriate values from the spreadsheet (@fig-array). 
+
+Work your way through all five jobs and set the data for all of them.  
+
+
+::: callout-note
+We agree that this can be a bit of a pain for a deployment of many recorders and are trying to
+think of an easier way of doing this such as importing data somehow from a database or spreadsheet. 
+:::
+
+# Run the batch jobs
+
+## Number of concurrent jobs
+
+The final thing to decide before starting processing is how many concurrent jobs your computer can
+manage efficiently. How many jobs can run concurrently, depends on the complexity of the configuration and
+on how powerful the computer is. On a good Intel I7 desktop with 32 GBytes of RAM, I'd probably run three 
+jobs at a time. On my laptop, which only has 12 cores and 16 GByte RAM, I'll stick to 2. To set the number of jobs
+right click on the Processor table (which will have  a single line in it for your current machine) and either
+increase or decrease the maximum number of jobs. 
+
+
+## Run the jobs
+
+![Batch Job Status](images/jobstatus.png){#fig-jobstatus width=50%}
+
+You're now ready to start the batch jobs. Press the PAMGuard start button and wait a few seconds for the 
+first jobs to start. The jobs table will show the status of each job (@fig-jobstatus), which will update as each processed
+file completes. When a job ends, another will start until all jobs are complete. 
+
+Look in the folder where you've told it to put the binary files and databases. You should see database files 
+and folders of binary output start to appear as each job starts.
+
+You can change the number of concurrent jobs while they are running. If you reduce the number, then 
+no jobs will be stopped, but when one ends, another will not start until the number of active jobs
+drops below the set maximum. If you increase the number of jobs, it's likely that another job
+will start immediately. 
+
+Once jobs are complete, there will be a menu option available to open that dataset with the PAMGuard Viewer. 
+For further information, see the online help. 
+
+
+::: {.callout-tip appearance="default"}
+Unless you have a powerful computer, running these sample jobs may take an hour or more. At this point 
+you may want to stop the jobs and take a look at the preprocessed data we provided for you. 
+:::
+
+# Running Offline Tasks
+
+Several PAMGuard modules have options in Viewer mode to re-run certain tasks, such as click classification. 
+
+Indeed, in the exercises above, we deliberately 'forgot' to set up the SoundTrap click detector to classify 
+porpoise clicks, so we should run that task now. 
+
+
+
+
