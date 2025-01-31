@@ -325,6 +325,32 @@ Several PAMGuard modules have options in Viewer mode to re-run certain tasks, su
 Indeed, in the exercises above, we deliberately 'forgot' to set up the SoundTrap click detector to classify 
 porpoise clicks, so we should run that task now. 
 
+To run offline tasks go back to your batch configuration then in the top of the Job Control Panel, select Mode: Offline tasks(viewer mode) from the two options. (You could also start an entirely new batch configuration, and set up the jobs again, but that's not necessary for us here). The display will change to also show a table of possible offline tasks to run on the data (@fig-offconfig). Note that you may have to resize the display and move the dividers between the different tables to see this properly. 
+
+## Configure a click reclassification task 
+
+![Configuration display for controlling offline tasks](images/offlineconfig.png){#fig-offconfig}
+
+The batch processor has extracted available tasks from the modules in your run configuration. In this case, there are five tasks, all from the click detector. Recalculating delays and bearings is not relevant to single channel data, but we can run the click classification. Click on the 'Configure Task' button for Reclassify Clicks, then in the dialog (@fig-reclass1), then press the 'New' button to open the 'Click Parameters dialog (@fig-reclass2). In the bottom right from 'Set Defaults' select 'Porpoise' and also enter the name 'Porpoise' at the top of the dialog (@fig-reclass2). Finally, un-check the button in the 'click length' section.  
 
 
+
+::: {#fig-reclass layout="[35,-2,55]" layout-valign="bottom"}
+
+![Click Reclassification configuration](images/reclass1.png){#fig-reclass1 width=70%}
+
+![Setup for  a Porpoise click classifier](images/reclass2.png){#fig-reclass2 width=70%}
+
+Configuring click classifiers prior to running reclassification
+
+:::
+
+## Run the task on all five datasets
+
+If you're using the batch processor configuration that you used to process the raw data, then it will 
+still be saying that all jobs are complete. To reset them ready for running the offline tasks, right click anywhere in the jobs table and select "Reprocess all jobs" from the dropdown menu. 
+
+Make sure that you've selected to run the Reclassification offline task. 
+
+Then, just as before, press the red start button. Each dataset will open in turn and the selected offline task will run on each dataset, following the same rules as earlier as to how many jobs will run in parallel. Running the click classification is a lot quicker than processing the raw data, to this should only take a couple of minutes to run on most computers. 
 
