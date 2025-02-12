@@ -14,6 +14,8 @@ date: last-modified
 #abstract: "this is the abstract which will be over several lines and will be over many lines and that should be fine #{{< pagebreak >}}"
 format:
   pdf:
+    output-file: "batch_processing"
+    output-ext:  "pdf"
     margin-left: 1.25in
     margin-right: 1.25in
     margin-top: 1in
@@ -23,6 +25,7 @@ format:
       - title.tex
     include-in-header:
       text: |
+        \pagenumbering{gobble}
         \usepackage{scrlayer-scrpage}
         \rohead{Batch Processing Tutorial V2.0}
         \usepackage[noblocks]{authblk}
@@ -51,7 +54,7 @@ format:
         
         In this tutorial you wil learn to:
         \begin{enumerate}
-        \item Lean what we mean by batch processing
+        \item Learn what we mean by batch processing
         \item Install the Batch Processor in PAMGurd
         \item Set up a PAMGuard configuration to run batch processes
         \item Run a process of a multiple sets of raw data files
@@ -62,6 +65,9 @@ format:
 
 
 {{< pagebreak >}}
+
+\pagenumbering{arabic}
+\pagestyle{plain}
 
 # Introduction
 
@@ -140,8 +146,10 @@ any older versions of the Batch Processor plugin in that folder, make sure you r
 will appear in the Add Modules / Utilities menu just like any other PAMGuard module. 
 
 ## Sample Data
+
 The data you'll be using for this tutorial comes from a deployment of five SoundTrap 300 recorders off the
-West coast of Scotland. We've taken a single days data for each recorder since the full dataset would be
+West coast of Scotland, which form part of the [Compass Project](https://www.sams.ac.uk/science/projects/compass/). 
+We've taken a single days data for each recorder since the full dataset would be
 too large for a tutorial exercise and might take many days to process. 
 
 The data are available on Zenodo at (Link to the Zenodo site). 

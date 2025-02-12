@@ -93,8 +93,9 @@
 \def\fps@figure{htbp}
 \makeatother
 
+\pagenumbering{gobble}
 \usepackage{scrlayer-scrpage}
-\rohead{Batch Processing Tutorial V1.1}
+\rohead{Batch Processing Tutorial V2.0}
 \usepackage[noblocks]{authblk}
 \renewcommand*{\Authsep}{, }
 \renewcommand*{\Authand}{ and }
@@ -181,11 +182,11 @@
 \affil[1]{Sea Mammal Research Unit, University of St Andrews}
 
 
-\date{2025-01-26}
+\date{2025-02-12}
 \begin{document}
 \maketitle
 
-\centerline{\textbf{Tutorial Version 1.1}}
+\centerline{\textbf{Tutorial Version 2.0}}
 \vspace{3cm}
 
 
@@ -193,7 +194,7 @@
 
 In this tutorial you wil learn to:
 \begin{enumerate}
-\item Lean what we mean by batch processing
+\item Learn what we mean by batch processing
 \item Install the Batch Processor in PAMGurd
 \item Set up a PAMGuard configuration to run batch processes
 \item Run a process of a multiple sets of raw data files
@@ -210,36 +211,64 @@ In this tutorial you wil learn to:
 
 \newpage{}
 
+\pagenumbering{arabic}
+\pagestyle{plain}
+
 \section{Introduction}\label{introduction}
 
 The PAMGuard batch processing module allows you to run the same PAMGuard
 configuration on multiple sets of data (Figure~\ref{fig-normaldiagram}).
-This is particularly useful if you are processing data from deployments
-of multiple autonomous recorders and want to process the data from all
-of them in exactly the same way. It's also useful if you want to
-reprocess data from multiple old cruises with a new detector, for
-instance with one of the new Deep Learning detectors / classifiers that
-are becoming increasingly widely used.
+This is particularly useful if you want to process data from deployments
+of multiple autonomous recorders in exactly the same way. It can also be
+used to reprocess data from multiple old cruises with a new detector,
+for instance with one of the new Deep Learning detectors / classifiers
+that are becoming increasingly widely used.
 
-PAMGuard users will know that setting up the same configurations
-(PAMGuard configurations are held in psfx files) on multiple datasets is
-tiresome. For each dataset, you need to copy the psfx, then change the
-input folder for your sound files, the output folder for the binary data
-and the output database. If you get this wrong, then you might overwrite
-some data. Then, when you decide that those weren't exactly the detector
-settings you wanted, you have to do it all again for all your data sets.
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-tip-color-frame, opacityback=0, arc=.35mm, toptitle=1mm, toprule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{PAMGuard configuration files}, left=2mm, opacitybacktitle=0.6, bottomtitle=1mm, breakable, bottomrule=.15mm, titlerule=0mm, colback=white, rightrule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm]
 
-The PAMGuard batch processing module addressed this problem by running
+PAMGuard configurations are held in psfx files. They contain all of the
+information about the modules you've selected and how you've configured
+those modules.
+
+They can be easily copied or emailed between users.
+
+\end{tcolorbox}
+
+PAMGuard users will know that setting up the same configurations on
+multiple datasets is tiresome. For each dataset, you need to copy the
+configuration (psfx) file, then change the input folder for your sound
+files, the output folder for the binary data and the output database. If
+you get this wrong, then you might overwrite some data. Then, when you
+decide that those weren't exactly the detector settings you wanted, you
+have to do it all again for all your data sets.
+
+The PAMGuard batch processing module addresses this problem by running
 the same configuration on as many data sets as you want. You set up a
-series of jobs, and it will work through them, using the same
-configuration, until they are complete. Generally, it will run multiple
-jobs concurrently on a single machine.
+series of ``jobs'', and the batch processor will work through them,
+using the same configuration, until they are complete. Generally, it
+will run multiple jobs concurrently on a single machine.
 
 As well as processing raw audio data, it can also run `offline tasks' on
 already processed data. For instance if you wanted to change the click
 classifier settings, and reprocess all of the click binary files in
 multiple datasets, the batch processor can help do this in an efficient
 manner.
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-note-color-frame, opacityback=0, arc=.35mm, toptitle=1mm, toprule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{My personal data processing record}, left=2mm, opacitybacktitle=0.6, bottomtitle=1mm, breakable, bottomrule=.15mm, titlerule=0mm, colback=white, rightrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, leftrule=.75mm]
+
+My personal record is reprocessing over 80 Terrabytes of multibeam
+active sonar data, spread over 14 external USB hard drives, in less than
+8 days. Do achieve this, I set up 6 jobs processing data on the first 6
+hard drives, with the desktop PC set to run three jobs at a time. When
+the first three jobs were complete I replaced those hard drives and set
+up the next three jobs, and so on until processing was complete. In all,
+it only required half an hour or so of my time every 2 or 3 days.
+
+Data from this analysis are in the recent paper
+\href{https://doi.org/10.1111/1365-2664.14844}{Montabaranom et al.~Seals
+exhibit localised avoidance of operational tidal turbines}.
+
+\end{tcolorbox}
 
 \begin{figure}
 
@@ -289,7 +318,7 @@ the same time, make recordings which can be processed offline for a wide
 variety of other species. This system allows for much longer deployments
 than would be possible if all of the high frequency data were recorded.
 For more information about soundtraps, visit the
-\href{https://www.oceaninstruments.co.nz/}{Ocean Instruments Web page}.
+\href{https://www.oceaninstruments.co.nz/}{Ocean Instruments} web pages.
 
 This tutorial follows on directly from another PAMGuard Tutorial
 \href{https://www.pamguard.org/tutorials/staticmonitoring.html}{Introduction
@@ -315,31 +344,22 @@ in the Add Modules / Utilities menu just like any other PAMGuard module.
 \subsection{Sample Data}\label{sample-data}
 
 The data you'll be using for this tutorial comes from a deployment of
-five SoundTrap 300 recorders off the West coast of Scotland. We've taken
-a single days data for each recorder since the full dataset would be too
-large for a tutorial exercise and might take many days to process.
+five SoundTrap 300 recorders off the West coast of Scotland, which form
+part of the
+\href{https://www.sams.ac.uk/science/projects/compass/}{Compass
+Project}. We've taken a single days data for each recorder since the
+full dataset would be too large for a tutorial exercise and might take
+many days to process.
 
 The data are available on Zenodo at (Link to the Zenodo site). The
 Zenodo dataset contains three files: rawsudfiles.zip, configuration.zip
 and pamguardoutput.zip. For this tutorial you only need rawsudfiles.zip
-and configuration.zip (Figure~\ref{fig-data}). You'll be recreating the
+and configuration.zip (\textbf{?@fig-data}). You'll be recreating the
 files in pamguardoutput.zip, so you don't need them, but take a look if
 you want to.
 
 Unzip rawsudfiles.zip and configuration.zip to a convenient location on
 your hard drive.
-
-\begin{figure}
-
-\centering{
-
-\includegraphics[width=4in,height=2.08in]{BatchBasics_files/figure-latex/mermaid-figure-1.png}
-
-}
-
-\caption{\label{fig-data}Data organisation for this tutorial.}
-
-\end{figure}%
 
 \section{Configure PAMGuard}\label{configure-pamguard}
 
@@ -354,22 +374,17 @@ Processor. We'll call these the \textbf{Run configuration} and the
 The run configuration you'll be using is the configuration you should
 have ended up with at the end of the
 \href{https://www.pamguard.org/tutorials/staticmonitoring.html}{Introduction
-to Static Monitoring}
-
-We've made this for you to save time. For more information on building
-configurations to process soundtrap data see the tutorial
-\href{https://www.pamguard.org/tutorials/staticmonitoring.html}{Introduction
-to Static Monitoring}. If you completed that tutorial, you can use the
-configuration you had at the end, or you can use
-compass\_settings\_static\_logger.psfx which you should have downloaded
-in configuration.zip.
+to Static Monitoring} tutorial. If you completed the static monitoring
+tutorial, you can use the configuration you had at the end, or you can
+use compass\_settings\_static\_logger.psfx which you should have
+downloaded in configuration.zip for this tutorial.
 
 The configuration (Figure~\ref{fig-pamguardmodel}) uses an FFT module to
 compute a spectrogram of the 96kHz data which feeds a Whistle detector
 and a long team spectral average (LTSA) generator. The 96kHz data also
 input to a Noise band Monitor and are also decimated to 10kHz fo feed a
 second copy of the Whislte and Moan detector to search for lower
-frequency tonal sounds. You'll also see the ST ``Click Detector'' which
+frequency tonal sounds. You'll also see the ``ST Click Detector'' which
 is not connected to the data from the sound acquisition. This is because
 it's a special version of the click detector, modified to receive the
 detection clips from the SUD files, which you'll remember are at the
@@ -403,11 +418,12 @@ Configuration.
 You'll be making this configuration from scratch so that you learn to
 use the batch processor.
 
-Start PAMGuard and create a new configuration. Launch PAMGuard, and when
-it asks you to ``load PAMGuard configuration from \ldots{}'' press
-Browse / Create New\ldots{} . In the dialog that opens, navigate to
-where you want to work, and enter the file name CompassBatch
-(Figure~\ref{fig-createpsfx}).
+Start PAMGuard and create a new configuration: launch PAMGuard from the
+Windows Start menu, and when it asks you to ``load PAMGuard
+configuration from \ldots{}'' press Browse / Create New\ldots{} . In the
+dialog that opens, navigate to where you want to work, and enter the
+file name CompassBatch (Figure~\ref{fig-createpsfx}), then hit the
+Select button or press Enter.
 
 \begin{figure}
 
@@ -424,7 +440,7 @@ configuration file}
 
 From PAMGuards file / add modules / utilities menu add a Database and a
 Batch processing module to the configuration. Then from the file menu /
-Database / Database Selection dialog, press browse / create and enter
+Database / Database Selection dialog, press browse / create, and enter
 the name of the database (e.g.~CompassBatch) which is going to hold
 information about the jobs you're running and how they are progressing.
 Your PAMGuard configuration should now look like
@@ -475,15 +491,19 @@ batch jobs}
 
 The Batch processor will only look one level of folders down from the
 folder you select, so make sure you've selected the right folder. If
-you've got it right, you'll be told that its found five sub folder.
+you've got it right, you'll be told that its found five sub folders
+containing data.
 
-Select folders for the binary output and for the databases that will be
-automatically generated. I've chosen the folder
+Next select folders for the binary output and for the databases that
+will be automatically generated. I've chosen the folder
 C:\textbackslash ProjectData\textbackslash Compass\textbackslash PAMGuardOutput
 for both.
 
 Press OK, and the set of five batch jobs should show in the main
-PAMGuard batch display (Figure~\ref{fig-config2}).
+PAMGuard batch display (Figure~\ref{fig-config2}). If you look at your
+folders and files with Windows Explorer, you'll not see any of the
+output binary folders and databases at this stage. Don't worry, they
+will be created automatically as each batch job starts.
 
 \begin{figure}
 
@@ -567,7 +587,7 @@ hydrophone element (there is only one for this SoundTrap). Enter the
 hydrophone sensitivity as the negative of the High Gain full scale value
 from the spreadsheet (Figure~\ref{fig-hydrophone}). Then open the
 `streamer', again by double clicking or by pressing the edit button.
-Right click on the meny button to the right of the display position and
+Right click on the menu button to the right of the display position and
 select ``Edit'' from the dropdown menu. When the Hydrophone array
 reference position dialog opens, click on ``Decimal'' in the top right
 hand corner and copy/paste the appropriate values from the spreadsheet
@@ -575,11 +595,11 @@ hand corner and copy/paste the appropriate values from the spreadsheet
 
 Work your way through all five jobs and set the data for all of them.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, breakable, rightrule=.15mm, colback=white, leftrule=.75mm, opacityback=0, left=2mm, toprule=.15mm, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, colbacktitle=quarto-callout-note-color!10!white, titlerule=0mm, bottomtitle=1mm, colframe=quarto-callout-note-color-frame, toptitle=1mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-important-color-frame, opacityback=0, arc=.35mm, toptitle=1mm, toprule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Feedback}, left=2mm, opacitybacktitle=0.6, bottomtitle=1mm, breakable, bottomrule=.15mm, titlerule=0mm, colback=white, rightrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, leftrule=.75mm]
 
 We agree that this can be a bit of a pain for a deployment of many
-recorders and are trying to think of an easier way of doing this such as
-importing data somehow from a database or spreadsheet.
+recorders and are trying to think of an easier way of doing this, such
+as importing data from a database or spreadsheet.
 
 \end{tcolorbox}
 
@@ -589,13 +609,13 @@ importing data somehow from a database or spreadsheet.
 
 The final thing to decide before starting processing is how many
 concurrent jobs your computer can manage efficiently. How many jobs can
-run concurrently, depends on the complexity of the configuration and on
+run concurrently depends on the complexity of the configuration and on
 how powerful the computer is. On a good Intel I7 desktop with 32 GBytes
-of RAM, I'd probably run three jobs at a time. On my laptop, which only
-has 12 cores and 16 GByte RAM, I'll stick to 2. To set the number of
-jobs right click on the Processor table (which will have a single line
-in it for your current machine) and either increase or decrease the
-maximum number of jobs.
+of RAM and 20 processor cores, I'd probably run three jobs at a time. On
+my laptop, which only has 12 cores and 16 GByte RAM, I'll stick to 2. To
+set the number of jobs right click on the Processor table (which will
+have a single line in it for your current machine) and either increase
+or decrease the maximum number of jobs.
 
 \subsection{Run the jobs}\label{run-the-jobs}
 
@@ -617,6 +637,10 @@ table will show the status of each job (Figure~\ref{fig-jobstatus}),
 which will update as each processed file completes. When a job ends,
 another will start until all jobs are complete.
 
+Look in the folder where you've told it to put the binary files and
+databases. You should see database files and folders of binary output
+start to appear as each job starts.
+
 You can change the number of concurrent jobs while they are running. If
 you reduce the number, then no jobs will be stopped, but when one ends,
 another will not start until the number of active jobs drops below the
@@ -624,11 +648,10 @@ set maximum. If you increase the number of jobs, it's likely that
 another job will start immediately.
 
 Once jobs are complete, there will be a menu option available to open
-that dataset with the PAMGuard Viewer.
+that dataset with the PAMGuard Viewer. For further information, see the
+online help.
 
-For further information, see the online help.
-
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, breakable, rightrule=.15mm, colback=white, leftrule=.75mm, opacityback=0, left=2mm, toprule=.15mm, bottomrule=.15mm, arc=.35mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, colbacktitle=quarto-callout-tip-color!10!white, titlerule=0mm, bottomtitle=1mm, colframe=quarto-callout-tip-color-frame, toptitle=1mm, opacitybacktitle=0.6]
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-tip-color-frame, opacityback=0, arc=.35mm, toptitle=1mm, toprule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Impatient people}, left=2mm, opacitybacktitle=0.6, bottomtitle=1mm, breakable, bottomrule=.15mm, titlerule=0mm, colback=white, rightrule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm]
 
 Unless you have a powerful computer, running these sample jobs may take
 an hour or more. At this point you may want to stop the jobs and take a
@@ -644,6 +667,100 @@ tasks, such as click classification.
 Indeed, in the exercises above, we deliberately `forgot' to set up the
 SoundTrap click detector to classify porpoise clicks, so we should run
 that task now.
+
+To run offline tasks go back to your batch configuration then in the top
+of the Job Control Panel, select Mode: Offline tasks (viewer mode) from
+the two options. (You could also start an entirely new batch
+configuration, and set up the jobs again, but that's not necessary for
+us here). The display will change to also show a table of possible
+offline tasks to run on the data (Figure~\ref{fig-offconfig}). Note that
+you may have to resize the display and move the dividers between the
+different tables to see this properly.
+
+\subsection{Configure a click reclassification
+task}\label{configure-a-click-reclassification-task}
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/offlineconfig.png}}
+
+}
+
+\caption{\label{fig-offconfig}Configuration display for controlling
+offline tasks}
+
+\end{figure}%
+
+The batch processor has automatically extracted a list of available
+tasks from the modules in your run configuration. In this case, there
+are five tasks, all from the click detector. Recalculating delays and
+bearings is not relevant to single channel data, but we can run the
+click classification. Click on the `Configure Task' button for
+Reclassify Clicks, then in the dialog (Figure~\ref{fig-reclass1}), then
+press the `New' button to open the `Click Parameters dialog
+(Figure~\ref{fig-reclass2}). In the bottom right from 'Set Defaults'
+select `Porpoise' which will set default values for porpoise click
+classification.
+
+\begin{figure}
+
+\begin{minipage}{0.45\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/reclass1.png}}
+
+}
+
+\subcaption{\label{fig-reclass1}Click Reclassification configuration}
+
+\end{minipage}%
+%
+\begin{minipage}{0.01\linewidth}
+~\end{minipage}%
+%
+\begin{minipage}{0.55\linewidth}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{images/reclass2.png}}
+
+}
+
+\subcaption{\label{fig-reclass2}Setup for a Porpoise click classifier}
+
+\end{minipage}%
+
+\caption{\label{fig-reclass}Configuring click classifiers prior to
+running reclassification}
+
+\end{figure}%
+
+\subsection{Run the task on all five
+datasets}\label{run-the-task-on-all-five-datasets}
+
+If you're using the batch processor configuration that you used to
+process the raw data, then it will still be saying that all jobs are
+complete. To reset them ready for running the offline tasks, right click
+anywhere in the jobs table and select ``Reprocess all jobs'' from the
+dropdown menu.
+
+Make sure that you've selected the appropriate checkbox to run the
+Reclassification offline task.
+
+Then, just as before, press the red start button. Each dataset will open
+in turn and the selected offline task will run on each dataset,
+following the same rules as earlier as to how many jobs will run in
+parallel.
+
+Running the click classification is a lot quicker than processing the
+raw data, so this should only take a couple of minutes to run on most
+computers. Once jobs are complete, you can view the data for each job
+using the
+\href{https://www.pamguard.org/olhelp/overview/PamMasterHelp/docs/viewerMode.html}{PAMGuard
+viewer}.
 
 
 
