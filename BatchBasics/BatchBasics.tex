@@ -182,7 +182,7 @@
 \affil[1]{Sea Mammal Research Unit, University of St Andrews}
 
 
-\date{2025-02-12}
+\date{2025-02-20}
 \begin{document}
 \maketitle
 
@@ -208,6 +208,7 @@ In this tutorial you wil learn to:
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
+\listoffigures
 
 \newpage{}
 
@@ -222,9 +223,9 @@ This is particularly useful if you want to process data from deployments
 of multiple autonomous recorders in exactly the same way. It can also be
 used to reprocess data from multiple old cruises with a new detector,
 for instance with one of the new Deep Learning detectors / classifiers
-that are becoming increasingly widely used.
+that have recently been added to PAMGuard.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-tip-color-frame, opacityback=0, arc=.35mm, toptitle=1mm, toprule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{PAMGuard configuration files}, left=2mm, opacitybacktitle=0.6, bottomtitle=1mm, breakable, bottomrule=.15mm, titlerule=0mm, colback=white, rightrule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-tip-color-frame, toptitle=1mm, opacitybacktitle=0.6, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{PAMGuard configuration files}, left=2mm, bottomrule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, coltitle=black, colback=white, toprule=.15mm, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, leftrule=.75mm, opacityback=0]
 
 PAMGuard configurations are held in psfx files. They contain all of the
 information about the modules you've selected and how you've configured
@@ -254,7 +255,7 @@ classifier settings, and reprocess all of the click binary files in
 multiple datasets, the batch processor can help do this in an efficient
 manner.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-note-color-frame, opacityback=0, arc=.35mm, toptitle=1mm, toprule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{My personal data processing record}, left=2mm, opacitybacktitle=0.6, bottomtitle=1mm, breakable, bottomrule=.15mm, titlerule=0mm, colback=white, rightrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-note-color-frame, toptitle=1mm, opacitybacktitle=0.6, breakable, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{My personal data processing record}, left=2mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, colback=white, toprule=.15mm, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, leftrule=.75mm, opacityback=0]
 
 My personal record is reprocessing over 80 Terrabytes of multibeam
 active sonar data, spread over 14 external USB hard drives, in less than
@@ -287,13 +288,14 @@ configuration}
 
 SoundTraps are slightly more sophisticated than many recorders.
 Depending on how they are configured, they may not just be recording raw
-audio data. The ones we're using were configured to sample raw data at a
-sample rate of 576kHz. The soundtrap then ran an automatic transient
-(click) detector on the incoming data and each detection was saved as a
-short clip just over a millisecond long. The incoming high frequency
-data were then decimated to 96kHz and all of the 96kHz data stored. Both
-the detections and the recordings are compressed using a lossless
-compression algorithm and stored together in a SUD file as shown in
+audio data, but also the output of an onboard detector. The ones we're
+using were configured to sample raw data at a sample rate of 576kHz. The
+soundtrap then ran an automatic transient (click) detector on the
+incoming data and each detection was saved as a short clip just over a
+millisecond long. The incoming high frequency data were then decimated
+to 96kHz and all of the 96kHz data stored. Both the detections and the
+recordings are compressed using a lossless compression algorithm and
+stored together in a SUD file as shown in
 Figure~\ref{fig-soundtrapflow}.
 
 \begin{figure}
@@ -339,7 +341,8 @@ C:\textbackslash Program
 Files\textbackslash Pamguard\textbackslash plugins). If you've any older
 versions of the Batch Processor plugin in that folder, make sure you
 remove them. Once this is done, the Batch Processor module will appear
-in the Add Modules / Utilities menu just like any other PAMGuard module.
+in the Add Modules / Utilities menu just like any other PAMGuard module,
+and it's help pages will be available in the PAMGuard online help.
 
 \subsection{Sample Data}\label{sample-data}
 
@@ -352,13 +355,13 @@ full dataset would be too large for a tutorial exercise and might take
 many days to process.
 
 The data are available on Zenodo at (Link to the Zenodo site). The
-Zenodo dataset contains three files: rawsudfiles.zip, configuration.zip
-and pamguardoutput.zip. For this tutorial you only need rawsudfiles.zip
-and configuration.zip (\textbf{?@fig-data}). You'll be recreating the
-files in pamguardoutput.zip, so you don't need them, but take a look if
-you want to.
+Zenodo dataset contains three files: SoundData.zip, configuration.zip
+and pamguardoutput.zip. For this tutorial you only need SoundData.zip
+and configuration.zip. You'll be recreating the files in
+pamguardoutput.zip, so you don't need them, but take a look if you want
+to.
 
-Unzip rawsudfiles.zip and configuration.zip to a convenient location on
+Unzip SoundData.zip and configuration.zip to a convenient location on
 your hard drive.
 
 \section{Configure PAMGuard}\label{configure-pamguard}
@@ -406,7 +409,7 @@ SoundTrapClicksNWsls.psfx}
 As well as the above sound processing and detection modules, there is
 the Array Manager and Meta Data modules (both always present in every
 PAMGuard configuration), a Binary Store and Database for the output data
-we're about to generate, and a User display which will show a
+we're about to generate, and a User Display which will show a
 spectrogram of the 96kHz data overlaid with whistle detections.
 
 You've probably opened the compass\_settings\_static\_logger.psfx file
@@ -420,10 +423,10 @@ use the batch processor.
 
 Start PAMGuard and create a new configuration: launch PAMGuard from the
 Windows Start menu, and when it asks you to ``load PAMGuard
-configuration from \ldots{}'' press Browse / Create New\ldots{} . In the
-dialog that opens, navigate to where you want to work, and enter the
-file name CompassBatch (Figure~\ref{fig-createpsfx}), then hit the
-Select button or press Enter.
+configuration from \ldots{}'' press \textbf{Browse / Create New\ldots{}}
+. In the dialog that opens, navigate to where you want to work, and
+enter the file name CompassBatch (Figure~\ref{fig-createpsfx}), then hit
+the Select button or press Enter.
 
 \begin{figure}
 
@@ -438,13 +441,13 @@ configuration file}
 
 \end{figure}%
 
-From PAMGuards file / add modules / utilities menu add a Database and a
-Batch processing module to the configuration. Then from the file menu /
-Database / Database Selection dialog, press browse / create, and enter
-the name of the database (e.g.~CompassBatch) which is going to hold
-information about the jobs you're running and how they are progressing.
-Your PAMGuard configuration should now look like
-Figure~\ref{fig-emptyconfig} .
+From PAMGuards \emph{File / add modules / utilities} menu add a Database
+and a Batch processing module to the configuration. Then from the
+\emph{File / Database / Database Selection} menu dialog, press
+\textbf{Browse / Create \ldots{}}, and enter the name of the database
+(e.g.~CompassBatch) which is going to hold information about the jobs
+you're running and how they are progressing. Your PAMGuard configuration
+should now look like Figure~\ref{fig-emptyconfig} .
 
 \begin{figure}
 
@@ -462,16 +465,16 @@ batch processor modules}
 \subsubsection{Select the configuration
 file}\label{select-the-configuration-file}
 
-At the top of the display, in the configuration panel, press the Browse
-\ldots{} button and select the Run Configuration
+At the top of the display, in the configuration panel, press the
+\textbf{Browse \ldots{}} button and select the Run Configuration
 compass\_settings\_static\_logger.psfx.
 
 \subsection{Create jobs}\label{create-jobs}
 
 You should have five sets of sud files, each in a different folder. You
-can create all five jobs at once from the Create Set button in the Job
-Control Panel. Press the Create Set button, then in the dialog, press
-the Select button in the top right corner. Navigate to the folder
+can create all five jobs at once from the \textbf{Create Set} button in
+the Job Control Panel. Press the Create Set button, then in the dialog,
+press the Select button in the top right corner. Navigate to the folder
 containing the five folders of soundtrap data and select just that root
 folder (in the example in Figure~\ref{fig-createset} it's
 C:\textbackslash ProjectData\textbackslash Compass\textbackslash soundtrapdata).
@@ -578,24 +581,24 @@ location data}
 
 \end{figure}%
 
-For each job in the table, right click on the row and select ``Add or
-Edit calibration / Array Data'' from the dropdown menu. This will open
+For each job in the table, right click on the row and select \emph{Add
+or Edit calibration / Array Data} from the dropdown menu. This will open
 the Array Manager dialog (Figure~\ref{fig-arraymanager1}), using the
 current default values from the Run Configuration. Enter the SoundTrap
 serial number in the Instrument Id field. Next double click on the
 hydrophone element (there is only one for this SoundTrap). Enter the
 hydrophone sensitivity as the negative of the High Gain full scale value
 from the spreadsheet (Figure~\ref{fig-hydrophone}). Then open the
-`streamer', again by double clicking or by pressing the edit button.
-Right click on the menu button to the right of the display position and
-select ``Edit'' from the dropdown menu. When the Hydrophone array
-reference position dialog opens, click on ``Decimal'' in the top right
-hand corner and copy/paste the appropriate values from the spreadsheet
-(Figure~\ref{fig-array}).
+`streamer', again by double clicking or by pressing the \emph{Edit}
+button. Right click on the menu button to the right of the display
+position and select \emph{Edit} from the dropdown menu. When the
+Hydrophone array reference position dialog opens, click on ``Decimal''
+in the top right hand corner and copy/paste the appropriate values from
+the spreadsheet (Figure~\ref{fig-array}).
 
 Work your way through all five jobs and set the data for all of them.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-important-color-frame, opacityback=0, arc=.35mm, toptitle=1mm, toprule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Feedback}, left=2mm, opacitybacktitle=0.6, bottomtitle=1mm, breakable, bottomrule=.15mm, titlerule=0mm, colback=white, rightrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-important-color-frame, toptitle=1mm, opacitybacktitle=0.6, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Feedback}, left=2mm, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, colback=white, toprule=.15mm, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, leftrule=.75mm, opacityback=0]
 
 We agree that this can be a bit of a pain for a deployment of many
 recorders and are trying to think of an easier way of doing this, such
@@ -651,7 +654,7 @@ Once jobs are complete, there will be a menu option available to open
 that dataset with the PAMGuard Viewer. For further information, see the
 online help.
 
-\begin{tcolorbox}[enhanced jigsaw, coltitle=black, colframe=quarto-callout-tip-color-frame, opacityback=0, arc=.35mm, toptitle=1mm, toprule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Impatient people}, left=2mm, opacitybacktitle=0.6, bottomtitle=1mm, breakable, bottomrule=.15mm, titlerule=0mm, colback=white, rightrule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, leftrule=.75mm]
+\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-tip-color-frame, toptitle=1mm, opacitybacktitle=0.6, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Impatient ?}, left=2mm, bottomrule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, coltitle=black, colback=white, toprule=.15mm, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, leftrule=.75mm, opacityback=0]
 
 Unless you have a powerful computer, running these sample jobs may take
 an hour or more. At this point you may want to stop the jobs and take a
@@ -675,7 +678,9 @@ configuration, and set up the jobs again, but that's not necessary for
 us here). The display will change to also show a table of possible
 offline tasks to run on the data (Figure~\ref{fig-offconfig}). Note that
 you may have to resize the display and move the dividers between the
-different tables to see this properly.
+different tables to see this properly. Also, if you're now using the
+pre-processed data, the paths to the data in your batch configuration
+might all be wrong, so check them!
 
 \subsection{Configure a click reclassification
 task}\label{configure-a-click-reclassification-task}
@@ -697,12 +702,12 @@ The batch processor has automatically extracted a list of available
 tasks from the modules in your run configuration. In this case, there
 are five tasks, all from the click detector. Recalculating delays and
 bearings is not relevant to single channel data, but we can run the
-click classification. Click on the `Configure Task' button for
+click classification. Click on the \textbf{Configure Task} button for
 Reclassify Clicks, then in the dialog (Figure~\ref{fig-reclass1}), then
-press the `New' button to open the `Click Parameters dialog
-(Figure~\ref{fig-reclass2}). In the bottom right from 'Set Defaults'
-select `Porpoise' which will set default values for porpoise click
-classification.
+press the \textbf{New} button to open the Click Parameters dialog
+(Figure~\ref{fig-reclass2}). In the bottom right from \textbf{Set
+Defaults} select \emph{Porpoise} which will set default values for
+porpoise click classification.
 
 \begin{figure}
 
@@ -744,7 +749,7 @@ datasets}\label{run-the-task-on-all-five-datasets}
 If you're using the batch processor configuration that you used to
 process the raw data, then it will still be saying that all jobs are
 complete. To reset them ready for running the offline tasks, right click
-anywhere in the jobs table and select ``Reprocess all jobs'' from the
+anywhere in the jobs table and select \emph{Reprocess all jobs} from the
 dropdown menu.
 
 Make sure that you've selected the appropriate checkbox to run the
@@ -752,8 +757,8 @@ Reclassification offline task.
 
 Then, just as before, press the red start button. Each dataset will open
 in turn and the selected offline task will run on each dataset,
-following the same rules as earlier as to how many jobs will run in
-parallel.
+following the same rules as earlier as to how many jobs will run
+concurrently.
 
 Running the click classification is a lot quicker than processing the
 raw data, so this should only take a couple of minutes to run on most
