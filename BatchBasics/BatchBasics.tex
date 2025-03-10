@@ -65,6 +65,46 @@
 \fi
 \makeatother
 
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
@@ -182,7 +222,7 @@
 \affil[1]{Sea Mammal Research Unit, University of St Andrews}
 
 
-\date{2025-02-20}
+\date{2025-03-10}
 \begin{document}
 \maketitle
 
@@ -225,7 +265,7 @@ used to reprocess data from multiple old cruises with a new detector,
 for instance with one of the new Deep Learning detectors / classifiers
 that have recently been added to PAMGuard.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-tip-color-frame, toptitle=1mm, opacitybacktitle=0.6, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{PAMGuard configuration files}, left=2mm, bottomrule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, coltitle=black, colback=white, toprule=.15mm, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, leftrule=.75mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{PAMGuard configuration files}, colback=white, bottomrule=.15mm, rightrule=.15mm, toptitle=1mm, opacitybacktitle=0.6, coltitle=black, bottomtitle=1mm, left=2mm, breakable, arc=.35mm, titlerule=0mm, leftrule=.75mm, toprule=.15mm]
 
 PAMGuard configurations are held in psfx files. They contain all of the
 information about the modules you've selected and how you've configured
@@ -255,7 +295,7 @@ classifier settings, and reprocess all of the click binary files in
 multiple datasets, the batch processor can help do this in an efficient
 manner.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-note-color-frame, toptitle=1mm, opacitybacktitle=0.6, breakable, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{My personal data processing record}, left=2mm, bottomrule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, colback=white, toprule=.15mm, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, leftrule=.75mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{My personal data processing record}, colback=white, bottomrule=.15mm, rightrule=.15mm, toptitle=1mm, opacitybacktitle=0.6, coltitle=black, bottomtitle=1mm, left=2mm, breakable, arc=.35mm, titlerule=0mm, leftrule=.75mm, toprule=.15mm]
 
 My personal record is reprocessing over 80 Terrabytes of multibeam
 active sonar data, spread over 14 external USB hard drives, in less than
@@ -346,7 +386,7 @@ and it's help pages will be available in the PAMGuard online help.
 
 \subsection{Sample Data}\label{sample-data}
 
-The data you'll be using for this tutorial comes from a deployment of
+The data you'll be using for this tutorial come from a deployment of
 five SoundTrap 300 recorders off the West coast of Scotland, which form
 part of the
 \href{https://www.sams.ac.uk/science/projects/compass/}{Compass
@@ -354,15 +394,42 @@ Project}. We've taken a single days data for each recorder since the
 full dataset would be too large for a tutorial exercise and might take
 many days to process.
 
-The data are available on Zenodo at (Link to the Zenodo site). The
-Zenodo dataset contains three files: SoundData.zip, configuration.zip
-and pamguardoutput.zip. For this tutorial you only need SoundData.zip
-and configuration.zip. You'll be recreating the files in
-pamguardoutput.zip, so you don't need them, but take a look if you want
-to.
+The data are available on Zenodo at
+\url{https://zenodo.org/uploads/14989668}. The Zenodo dataset contains
+the following files:
 
-Unzip SoundData.zip and configuration.zip to a convenient location on
-your hard drive.
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{├── soundtrapdata.zip                  \#Five example days of acoustic recordings}
+\NormalTok{│   ├── Hyskier                        \#Folder of files for the Hyskier site}
+\NormalTok{│   ├── ShiantIsles                    \# etc.}
+\NormalTok{│   ├── StantonBank}
+\NormalTok{│   ├── StoerHead}
+\NormalTok{│   ├── Tolsta}
+\NormalTok{├── README.md                          \#This readme file}
+\NormalTok{├── CompassMetaData.csv                \#Calibration and location data for each device}
+\NormalTok{├── compass\_settings\_static\_logger.psfx \#PAMGuard configuration for data processing}
+\NormalTok{└── PAMGuardOutput.zip                 \#Processed data from the five deployments}
+\NormalTok{│   ├── Hyskier\_binary                 \#Folder of binary file output for the Hyskier site}
+\NormalTok{│   ├── ShiantIsles\_binary             \# etc.}
+\NormalTok{│   ├── StantonBank\_binary }
+\NormalTok{│   ├── StoerHead\_binary }
+\NormalTok{│   ├── Tolsta\_binary }
+\NormalTok{│   ├── Hyskier\_database.sqlite3       \# SQLite database output for the Hyskier site}
+\NormalTok{│   ├── ShiantIsles\_database.sqlite3   \# etc.}
+\NormalTok{│   ├── StantonBank\_database.sqlite3 }
+\NormalTok{│   ├── StoerHead\_database.sqlite3 }
+\NormalTok{│   └── Tolsta\_database.sqlite3 }
+\end{Highlighting}
+\end{Shaded}
+
+For this tutorial you only need soundtrapdata.zip,
+compass\_settings\_static\_logger.psfx, and CompassMetaData.csv. You'll
+be recreating the files in PAMGuardOutput.zip, so you don't need them,
+but take a look if you want to.
+
+Unzip soundtrapdata.zip and copy the other files to a convenient
+location on your hard drive.
 
 \section{Configure PAMGuard}\label{configure-pamguard}
 
@@ -418,8 +485,8 @@ Configuration.
 
 \subsection{The Batch Configuration}\label{the-batch-configuration}
 
-You'll be making this configuration from scratch so that you learn to
-use the batch processor.
+You'll be making the batch configuration from scratch so that you learn
+to use the batch processor.
 
 Start PAMGuard and create a new configuration: launch PAMGuard from the
 Windows Start menu, and when it asks you to ``load PAMGuard
@@ -471,12 +538,14 @@ compass\_settings\_static\_logger.psfx.
 
 \subsection{Create jobs}\label{create-jobs}
 
-You should have five sets of sud files, each in a different folder. You
-can create all five jobs at once from the \textbf{Create Set} button in
-the Job Control Panel. Press the Create Set button, then in the dialog,
-press the Select button in the top right corner. Navigate to the folder
-containing the five folders of soundtrap data and select just that root
-folder (in the example in Figure~\ref{fig-createset} it's
+You should have five sets of sud files, downloaded from
+\href{https://zenodo.org/uploads/14989668}{Zenodo}, each in a different
+folder. You can create all five jobs at once from the \textbf{Create
+Set} button in the Job Control Panel. Press the \textbf{Create Set}
+button, then in the dialog, press the \textbf{Select button} in the top
+right corner. Navigate to the folder containing the five folders of
+soundtrap data and select just that root folder (in the example in
+Figure~\ref{fig-createset} it's
 C:\textbackslash ProjectData\textbackslash Compass\textbackslash soundtrapdata).
 
 \begin{figure}
@@ -531,9 +600,8 @@ calibration values for each job, or the noise measurements will not be
 accurate. If you're processing data from static hydrophones, you may
 also want to set the correct location of each deployment.
 
-Callibration and location values for each dataset are provided in the
-files CompassMetaData.xlsx and CompassMetaData.csv (both are the same
-data).
+Calibration and location values for each dataset are provided in the
+file CompassMetaData.csv.
 
 \begin{figure}
 
@@ -598,7 +666,7 @@ the spreadsheet (Figure~\ref{fig-array}).
 
 Work your way through all five jobs and set the data for all of them.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-important-color-frame, toptitle=1mm, opacitybacktitle=0.6, breakable, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Feedback}, left=2mm, bottomrule=.15mm, colbacktitle=quarto-callout-important-color!10!white, coltitle=black, colback=white, toprule=.15mm, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, leftrule=.75mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colbacktitle=quarto-callout-important-color!10!white, colframe=quarto-callout-important-color-frame, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Feedback}, colback=white, bottomrule=.15mm, rightrule=.15mm, toptitle=1mm, opacitybacktitle=0.6, coltitle=black, bottomtitle=1mm, left=2mm, breakable, arc=.35mm, titlerule=0mm, leftrule=.75mm, toprule=.15mm]
 
 We agree that this can be a bit of a pain for a deployment of many
 recorders and are trying to think of an easier way of doing this, such
@@ -642,19 +710,19 @@ another will start until all jobs are complete.
 
 Look in the folder where you've told it to put the binary files and
 databases. You should see database files and folders of binary output
-start to appear as each job starts.
+start to appear as each job runs.
 
 You can change the number of concurrent jobs while they are running. If
 you reduce the number, then no jobs will be stopped, but when one ends,
 another will not start until the number of active jobs drops below the
-set maximum. If you increase the number of jobs, it's likely that
-another job will start immediately.
+set maximum. If you increase the number of jobs, another job will start
+immediately.
 
 Once jobs are complete, there will be a menu option available to open
 that dataset with the PAMGuard Viewer. For further information, see the
 online help.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, colframe=quarto-callout-tip-color-frame, toptitle=1mm, opacitybacktitle=0.6, breakable, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Impatient ?}, left=2mm, bottomrule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, coltitle=black, colback=white, toprule=.15mm, bottomtitle=1mm, arc=.35mm, rightrule=.15mm, leftrule=.75mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, opacityback=0, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Impatient ?}, colback=white, bottomrule=.15mm, rightrule=.15mm, toptitle=1mm, opacitybacktitle=0.6, coltitle=black, bottomtitle=1mm, left=2mm, breakable, arc=.35mm, titlerule=0mm, leftrule=.75mm, toprule=.15mm]
 
 Unless you have a powerful computer, running these sample jobs may take
 an hour or more. At this point you may want to stop the jobs and take a
@@ -698,16 +766,16 @@ offline tasks}
 
 \end{figure}%
 
-The batch processor has automatically extracted a list of available
-tasks from the modules in your run configuration. In this case, there
-are five tasks, all from the click detector. Recalculating delays and
-bearings is not relevant to single channel data, but we can run the
-click classification. Click on the \textbf{Configure Task} button for
-Reclassify Clicks, then in the dialog (Figure~\ref{fig-reclass1}), then
-press the \textbf{New} button to open the Click Parameters dialog
-(Figure~\ref{fig-reclass2}). In the bottom right from \textbf{Set
-Defaults} select \emph{Porpoise} which will set default values for
-porpoise click classification.
+The batch processor will have automatically extracted a list of
+available tasks from the modules in your run configuration. In this
+case, there are five tasks, all from the click detector. Recalculating
+delays and bearings is not relevant to single channel data, but we can
+run the click classification. Click on the \textbf{Configure Task}
+button for Reclassify Clicks, then in the dialog
+(Figure~\ref{fig-reclass1}), then press the \textbf{New} button to open
+the Click Parameters dialog (Figure~\ref{fig-reclass2}). In the bottom
+right from \textbf{Set Defaults} select \emph{Porpoise} which will set
+default values for porpoise click classification.
 
 \begin{figure}
 
@@ -766,6 +834,12 @@ computers. Once jobs are complete, you can view the data for each job
 using the
 \href{https://www.pamguard.org/olhelp/overview/PamMasterHelp/docs/viewerMode.html}{PAMGuard
 viewer}.
+
+\section{Acknowledgements}\label{acknowledgements}
+
+Funding for the development of the Batch Processing module was provided
+by the Bureau of Oceans Management (BOEM), Contract number
+140M0122C0006.
 
 
 
