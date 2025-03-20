@@ -71,6 +71,10 @@ format:
 
 # Introduction
 
+The Batch processor currently only works on Windows computers. We hope to bring out a Mac version later in 2025.
+
+Help pages for the batch processor are available from the PAMGuard Help menu, or [here online](https://www.pamguard.org/batchhelp/docs/batchoverview.html).
+
 The PAMGuard batch processing module allows you to run the same PAMGuard configuration on multiple sets of data (@fig-normaldiagram). This is particularly useful if you want to process data from deployments of multiple autonomous recorders in exactly the same way. It can also be used to reprocess data from multiple old cruises with a new detector, for instance with one of the new Deep Learning detectors / classifiers that have recently been added to PAMGuard.
 
 ::: callout-tip
