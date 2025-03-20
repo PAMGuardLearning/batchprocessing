@@ -20,6 +20,7 @@
 \usepackage{lmodern}
 \ifPDFTeX\else  
     % xetex/luatex font selection
+    \setmainfont[]{Verdana}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -235,7 +236,7 @@
 In this tutorial you wil learn to:
 \begin{enumerate}
 \item Learn what we mean by batch processing
-\item Install the Batch Processor in PAMGurd
+\item Install the Batch Processor in PAMGuard
 \item Set up a PAMGuard configuration to run batch processes
 \item Run a process of a multiple sets of raw data files
 \item Run additional offline tasks on the generated PAMGuard output
@@ -273,7 +274,7 @@ used to reprocess data from multiple old cruises with a new detector,
 for instance with one of the new Deep Learning detectors / classifiers
 that have recently been added to PAMGuard.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, bottomrule=.15mm, leftrule=.75mm, coltitle=black, breakable, colframe=quarto-callout-tip-color-frame, left=2mm, toptitle=1mm, rightrule=.15mm, colback=white, bottomtitle=1mm, colbacktitle=quarto-callout-tip-color!10!white, opacityback=0, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{PAMGuard configuration files}, arc=.35mm, opacitybacktitle=0.6, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, coltitle=black, colback=white, colbacktitle=quarto-callout-tip-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-tip-color-frame, opacityback=0, toprule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{PAMGuard configuration files}, breakable, bottomtitle=1mm, toptitle=1mm, bottomrule=.15mm, titlerule=0mm, leftrule=.75mm, arc=.35mm, rightrule=.15mm]
 
 PAMGuard configurations are held in psfx files. They contain all of the
 information about the modules you've selected and how you've configured
@@ -303,7 +304,7 @@ classifier settings, and reprocess all of the click binary files in
 multiple datasets, the batch processor can help do this in an efficient
 manner.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, bottomrule=.15mm, leftrule=.75mm, coltitle=black, breakable, colframe=quarto-callout-note-color-frame, left=2mm, toptitle=1mm, rightrule=.15mm, colback=white, bottomtitle=1mm, colbacktitle=quarto-callout-note-color!10!white, opacityback=0, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{My personal data processing record}, arc=.35mm, opacitybacktitle=0.6, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, coltitle=black, colback=white, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, opacityback=0, toprule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{My personal data processing record}, breakable, bottomtitle=1mm, toptitle=1mm, bottomrule=.15mm, titlerule=0mm, leftrule=.75mm, arc=.35mm, rightrule=.15mm]
 
 My personal record is reprocessing over 80 Terrabytes of multibeam
 active sonar data, spread over 14 external USB hard drives, in less than
@@ -674,7 +675,7 @@ the spreadsheet (Figure~\ref{fig-array}).
 
 Work your way through all five jobs and set the data for all of them.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, bottomrule=.15mm, leftrule=.75mm, coltitle=black, breakable, colframe=quarto-callout-important-color-frame, left=2mm, toptitle=1mm, rightrule=.15mm, colback=white, bottomtitle=1mm, colbacktitle=quarto-callout-important-color!10!white, opacityback=0, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Feedback}, arc=.35mm, opacitybacktitle=0.6, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, coltitle=black, colback=white, colbacktitle=quarto-callout-important-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-important-color-frame, opacityback=0, toprule=.15mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Feedback}, breakable, bottomtitle=1mm, toptitle=1mm, bottomrule=.15mm, titlerule=0mm, leftrule=.75mm, arc=.35mm, rightrule=.15mm]
 
 We agree that this can be a bit of a pain for a deployment of many
 recorders and are trying to think of an easier way of doing this, such
@@ -730,7 +731,7 @@ Once jobs are complete, there will be a menu option available to open
 that dataset with the PAMGuard Viewer. For further information, see the
 online help.
 
-\begin{tcolorbox}[enhanced jigsaw, titlerule=0mm, bottomrule=.15mm, leftrule=.75mm, coltitle=black, breakable, colframe=quarto-callout-tip-color-frame, left=2mm, toptitle=1mm, rightrule=.15mm, colback=white, bottomtitle=1mm, colbacktitle=quarto-callout-tip-color!10!white, opacityback=0, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Impatient ?}, arc=.35mm, opacitybacktitle=0.6, toprule=.15mm]
+\begin{tcolorbox}[enhanced jigsaw, left=2mm, coltitle=black, colback=white, colbacktitle=quarto-callout-tip-color!10!white, opacitybacktitle=0.6, colframe=quarto-callout-tip-color-frame, opacityback=0, toprule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Impatient ?}, breakable, bottomtitle=1mm, toptitle=1mm, bottomrule=.15mm, titlerule=0mm, leftrule=.75mm, arc=.35mm, rightrule=.15mm]
 
 Unless you have a powerful computer, running these sample jobs may take
 an hour or more. At this point you may want to stop the jobs and take a
