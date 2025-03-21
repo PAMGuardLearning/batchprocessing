@@ -121,7 +121,7 @@ This tutorial will work with PAMGuard Version 2.02.16 or later and the Batch Pro
 
 ## Sample Data
 
-The data you'll be using for this tutorial come from a deployment of five SoundTrap 300 recorders off the West coast of Scotland, which form part of the [Compass Project](https://www.sams.ac.uk/science/projects/compass/). We've taken a single days data for each recorder since the full dataset would be too large for a tutorial exercise and might take many days to process.
+The data you'll be using for this tutorial come from a deployment of five SoundTrap 300 recorders off the West coast of Scotland, which form part of the [Compass Project](https://compass-oceanscience.eu/). We've taken a single days data for each recorder since the full dataset would be too large for a tutorial exercise and might take many days to process.
 
 The data are available on Zenodo at [https://zenodo.org/uploads/14989668](https://zenodo.org/uploads/14989668). The Zenodo dataset contains the following files: 
 ```md
